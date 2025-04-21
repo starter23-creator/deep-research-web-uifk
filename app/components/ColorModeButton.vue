@@ -22,6 +22,7 @@
     <UButton
       :icon="preference === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'"
       color="primary"
+      class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
       @click="toggleColorMode"
     />
   </div>

@@ -28,24 +28,34 @@ until modelValue's length > 0 -->
   <UAccordion
     v-if="modelValue"
     v-model="currentOpen"
-    class="border border-gray-200 dark:border-gray-800 rounded-lg px-3 sm:px-4"
+    class="neumorphic-raised neumorphic-card rounded-neumorphic px-4 sm:px-6"
     :items="items"
     :loading="loading"
+    :ui="{
+      wrapper: 'rounded-neumorphic overflow-hidden',
+      container: 'rounded-neumorphic',
+      item: {
+        container: 'rounded-neumorphic',
+        base: 'rounded-neumorphic',
+        padding: 'py-4',
+        focus: 'focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
+      }
+    }"
   >
     <template #leading="{ item }">
       <div
         :class="[
           loading && 'animate-pulse',
-          'flex items-center gap-2 text-(--ui-primary)',
+          'flex items-center gap-3 text-(--ui-primary) font-medium',
         ]"
       >
-        <UIcon :name="item.icon" size="20" />
+        <UIcon :name="item.icon" size="22" class="text-indigo-400" />
         {{ loading ? $t('modelThinking') : $t('modelThinkingComplete') }}
       </div>
     </template>
     <template #content="{ item }">
       <p
-        class="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-wrap mb-4"
+        class="text-neumorphic-text whitespace-pre-wrap mb-4 p-4 rounded-neumorphic bg-white/30"
       >
         {{ item.content }}
       </p>

@@ -115,20 +115,21 @@
 </script>
 
 <template>
-  <UCard>
+  <UCard class="neumorphic-raised neumorphic-card">
     <template #header>
-      <h2 class="font-bold">{{ $t('modelFeedback.title') }}</h2>
-      <p class="text-sm text-gray-500">
+      <h2 class="font-bold text-lg">{{ $t('modelFeedback.title') }}</h2>
+      <p class="text-sm text-gray-500 mt-1">
         {{ $t('modelFeedback.description') }}
       </p>
     </template>
 
-    <div class="flex flex-col gap-2">
-      <div v-if="!feedback.length && !reasoningContent && !error">
+    <div class="flex flex-col gap-4">
+      <div v-if="!feedback.length && !reasoningContent && !error"
+           class="py-3 text-center text-neumorphic-text">
         {{ $t('modelFeedback.waiting') }}
       </div>
       <template v-else>
-        <div v-if="error" class="text-red-500 whitespace-pre-wrap">
+        <div v-if="error" class="text-red-500 whitespace-pre-wrap p-4 rounded-xl bg-red-50">
           {{ error }}
         </div>
 
@@ -136,11 +137,11 @@
 
         <div
           v-for="(feedback, index) in feedback"
-          class="flex flex-col gap-2"
+          class="flex flex-col gap-3 p-4 rounded-neumorphic bg-neumorphic-card shadow-neumorphic-raised"
           :key="index"
         >
-          {{ feedback.assistantQuestion }}
-          <UInput v-model="feedback.userAnswer" />
+          <p class="font-medium">{{ feedback.assistantQuestion }}</p>
+          <UInput v-model="feedback.userAnswer" class="neumorphic-inset" />
         </div>
       </template>
       <UButton
@@ -149,6 +150,7 @@
         :disabled="isSubmitButtonDisabled"
         block
         @click="$emit('submit')"
+        class="neumorphic-raised neumorphic-pill active:neumorphic-pressed mt-4"
       >
         {{ $t('modelFeedback.submit') }}
       </UButton>

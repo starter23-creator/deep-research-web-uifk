@@ -142,14 +142,26 @@
 
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading graph...">
-    <div :class="[fullscreen ? 'h-full' : isLargeScreen ? 'h-100' : 'h-60']">
+    <div 
+      :class="[fullscreen ? 'h-full' : isLargeScreen ? 'h-100' : 'h-60']"
+      class="rounded-neumorphic overflow-hidden"
+    >
       <VueFlow
         v-model:nodes="nodes"
         v-model:edges="edges"
         :edges-updatable="false"
         :min-zoom="0.5"
         :max-zoom="isLargeScreen ? 2.5 : 1.8"
-        :default-edge-options="{ animated: true }"
+        :default-edge-options="{ 
+          animated: true, 
+          style: { 
+            stroke: '#8b7af6', 
+            'stroke-width': 2, 
+            'stroke-opacity': 0.7 
+          } 
+        }"
+        :default-viewport="{ zoom: 1.2 }"
+        class="neumorphic-flow"
         @nodes-initialized="layoutGraph"
         @move="handleDrag"
       >
@@ -161,9 +173,45 @@
             @pointerdown="handleDrag"
           />
         </template>
-        <Background />
-        <Controls @fit-view="hasUserInteraction = false" />
+        <Background pattern-color="#8b7af620" />
+        <Controls 
+          @fit-view="hasUserInteraction = false"
+          class="neumorphic-controls"
+        />
       </VueFlow>
     </div>
   </ClientOnly>
 </template>
+
+<style scoped>
+.neumorphic-flow :deep(.vue-flow__edge-path) {
+  stroke-linecap: round;
+  transition: stroke 0.3s, stroke-width 0.3s;
+}
+
+.neumorphic-flow :deep(.vue-flow__edge.selected .vue-flow__edge-path),
+.neumorphic-flow :deep(.vue-flow__edge:hover .vue-flow__edge-path) {
+  stroke: #65c5f1;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 3px rgba(101, 197, 241, 0.3));
+}
+
+.neumorphic-flow :deep(.vue-flow__controls) {
+  border-radius: var(--neumorphic-border-radius);
+  overflow: hidden;
+  box-shadow: 5px 5px 15px var(--neumorphic-shadow-dark), -5px -5px 15px var(--neumorphic-shadow-light);
+  background: var(--neumorphic-bg-light);
+}
+
+.neumorphic-flow :deep(.vue-flow__controls-button) {
+  background: var(--neumorphic-bg-light);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--neumorphic-text-color);
+  transition: all 0.3s ease;
+}
+
+.neumorphic-flow :deep(.vue-flow__controls-button:hover) {
+  background: linear-gradient(to bottom, #f5f9fd, #e4eaf0);
+}
+</style>

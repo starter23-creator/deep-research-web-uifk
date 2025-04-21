@@ -195,15 +195,40 @@
 
 <template>
   <div>
-    <UModal v-model:open="showModal" :title="$t('settings.title')">
-      <UButton icon="i-lucide-settings" />
+    <UModal 
+      v-model:open="showModal" 
+      :title="$t('settings.title')"
+      :ui="{
+        container: 'rounded-neumorphic',
+        card: {
+          base: 'rounded-neumorphic bg-neumorphic-card',
+          body: 'p-5',
+          header: 'font-medium'
+        }
+      }"
+    >
+      <UButton 
+        icon="i-lucide-settings" 
+        class="neumorphic-raised neumorphic-pill active:neumorphic-pressed" 
+      />
 
       <template #body>
         <UAccordion
           v-model="activeSections"
           type="multiple"
           :items="settingSections"
+          class="rounded-neumorphic"
           collapsible
+          :ui="{
+            wrapper: 'rounded-neumorphic overflow-hidden',
+            container: 'rounded-neumorphic',
+            item: {
+              container: 'rounded-neumorphic',
+              base: 'rounded-neumorphic',
+              padding: 'py-4',
+              focus: 'focus-visible:ring-1 focus-visible:ring-primary-400'
+            }
+          }"
         >
           <!-- AI provider -->
           <template #ai>
@@ -230,28 +255,33 @@
                 </template>
                 <USelect
                   v-model="config.ai.provider"
-                  class="w-full"
+                  class="w-full neumorphic-raised rounded-neumorphic"
                   :items="aiProviderOptions"
+                  :ui="{
+                    select: 'rounded-neumorphic',
+                    dropdown: 'rounded-xl shadow-lg'
+                  }"
                 />
               </UFormField>
               <UFormField
                 :label="$t('settings.ai.apiKey')"
                 :required="config.ai.provider !== 'ollama'"
+                class="mt-4"
               >
                 <PasswordInput
                   v-model="config.ai.apiKey"
-                  class="w-full"
+                  class="w-full neumorphic-inset rounded-neumorphic"
                   :placeholder="$t('settings.ai.apiKey')"
                 />
               </UFormField>
-              <UFormField :label="$t('settings.ai.apiBase')">
+              <UFormField :label="$t('settings.ai.apiBase')" class="mt-4">
                 <UInput
                   v-model="config.ai.apiBase"
-                  class="w-full"
+                  class="w-full neumorphic-inset rounded-neumorphic"
                   :placeholder="aiApiBase"
                 />
               </UFormField>
-              <UFormField :label="$t('settings.ai.model')" required>
+              <UFormField :label="$t('settings.ai.model')" required class="mt-4">
                 <UInputMenu
                   v-if="aiModelOptions.length && !isLoadAiModelsFailed"
                   v-model="config.ai.model"
@@ -265,17 +295,17 @@
                 <UInput
                   v-else
                   v-model="config.ai.model"
-                  class="w-full"
+                  class="w-full neumorphic-inset rounded-neumorphic"
                   :placeholder="$t('settings.ai.model')"
                 />
               </UFormField>
-              <UFormField :label="$t('settings.ai.contextSize')">
+              <UFormField :label="$t('settings.ai.contextSize')" class="mt-4">
                 <template #help>
                   {{ $t('settings.ai.contextSizeHelp') }}
                 </template>
                 <UInput
                   v-model="config.ai.contextSize"
-                  class="w-26"
+                  class="w-26 neumorphic-inset rounded-neumorphic"
                   type="number"
                   placeholder="128000"
                   :min="512"
@@ -307,17 +337,22 @@
                 </template>
                 <USelect
                   v-model="config.webSearch.provider"
-                  class="w-full"
+                  class="w-full neumorphic-raised rounded-neumorphic"
                   :items="webSearchProviderOptions"
+                  :ui="{
+                    select: 'rounded-neumorphic',
+                    dropdown: 'rounded-xl shadow-lg'
+                  }"
                 />
               </UFormField>
               <UFormField
                 :label="$t('settings.webSearch.apiKey')"
                 :required="!config.webSearch.apiBase"
+                class="mt-4"
               >
                 <PasswordInput
                   v-model="config.webSearch.apiKey"
-                  class="w-full"
+                  class="w-full neumorphic-inset rounded-neumorphic"
                   :placeholder="$t('settings.webSearch.apiKey')"
                 />
               </UFormField>
@@ -331,7 +366,7 @@
                 >
                   <UInput
                     v-model="config.webSearch.googlePseId"
-                    class="w-full"
+                    class="w-full neumorphic-inset rounded-neumorphic"
                     :placeholder="
                       $t(
                         'settings.webSearch.providers.google-pse.pseIdPlaceholder',
@@ -347,7 +382,7 @@
               >
                 <UInput
                   v-model="config.webSearch.apiBase"
-                  class="w-full"
+                  class="w-full neumorphic-inset rounded-neumorphic"
                   :placeholder="webSearchApiBase"
                 />
               </UFormField>
@@ -371,7 +406,7 @@
                 </template>
                 <UInput
                   v-model="config.webSearch.concurrencyLimit"
-                  class="w-15"
+                  class="w-15 neumorphic-inset rounded-neumorphic"
                   type="number"
                   placeholder="2"
                   :min="1"
@@ -390,7 +425,14 @@
                     $t('settings.webSearch.providers.tavily.advancedSearchHelp')
                   "
                 >
-                  <USwitch v-model="config.webSearch.tavilyAdvancedSearch" />
+                  <USwitch 
+                    v-model="config.webSearch.tavilyAdvancedSearch" 
+                    :ui="{ 
+                      container: 'inline-flex items-center', 
+                      circle: 'transform transition-transform bg-white dark:bg-gray-900 ring-0 shadow-md', 
+                      button: 'rounded-full p-0.5' 
+                    }"
+                  />
                 </UFormField>
                 <UFormField
                   :label="$t('settings.webSearch.providers.tavily.searchTopic')"
@@ -400,7 +442,7 @@
                 >
                   <USelect
                     v-model="config.webSearch.tavilySearchTopic"
-                    class="w-30"
+                    class="w-30 neumorphic-raised neumorphic-pill"
                     :items="tavilySearchTopicOptions"
                     placeholder="general"
                   />
@@ -412,13 +454,14 @@
       </template>
 
       <template #footer>
-        <div class="flex items-center justify-between gap-2 w-full">
+        <div class="flex items-center justify-between gap-4 w-full">
           <p class="text-sm text-gray-500">
             {{ $t('settings.disclaimer') }}
           </p>
           <UButton
             color="primary"
             icon="i-lucide-check"
+            class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
             @click="showModal = false"
           >
             {{ $t('settings.save') }}

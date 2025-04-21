@@ -32,14 +32,14 @@
 </script>
 
 <template>
-  <UCard>
+  <UCard class="neumorphic-raised neumorphic-card">
     <template #header>
-      <h2 class="font-bold">{{ $t('researchTopic.title') }}</h2>
+      <h2 class="font-bold text-lg">{{ $t('researchTopic.title') }}</h2>
     </template>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-4">
       <UFormField :label="$t('researchTopic.inputTitle')" required>
         <UTextarea
-          class="w-full"
+          class="w-full neumorphic-inset"
           v-model="form.query"
           :rows="3"
           :placeholder="$t('researchTopic.placeholder')"
@@ -47,14 +47,14 @@
         />
       </UFormField>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <UFormField :label="$t('researchTopic.numOfQuestions')" required>
           <template #help>
             {{ $t('researchTopic.numOfQuestionsHelp') }}
           </template>
           <UInput
             v-model="form.numQuestions"
-            class="w-full"
+            class="w-full neumorphic-inset"
             type="number"
             :min="1"
             :max="5"
@@ -66,7 +66,7 @@
           <template #help>{{ $t('researchTopic.depthHelp') }}</template>
           <UInput
             v-model="form.depth"
-            class="w-full"
+            class="w-full neumorphic-inset"
             type="number"
             :min="1"
             :max="8"
@@ -78,7 +78,7 @@
           <template #help>{{ $t('researchTopic.breadthHelp') }}</template>
           <UInput
             v-model="form.breadth"
-            class="w-full"
+            class="w-full neumorphic-inset"
             type="number"
             :min="1"
             :max="8"
@@ -96,6 +96,7 @@
         :disabled="isSubmitButtonDisabled"
         block
         @click="handleSubmit"
+        class="neumorphic-raised neumorphic-pill active:neumorphic-pressed mt-4"
       >
         {{
           isLoadingFeedback

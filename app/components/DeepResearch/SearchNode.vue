@@ -51,12 +51,18 @@
 
 <template>
   <UButton
-    class="process-node"
-    :class="[theme.pulse && 'animate-pulse', 'max-w-90']"
+    class="process-node neumorphic-raised neumorphic-pill"
+    :class="[theme.pulse && 'animate-pulse', 'max-w-90', selected && 'shadow-inner bg-white/50']"
     :color="selected ? 'primary' : theme.color"
     :variant="selected ? 'soft' : 'outline'"
     :icon="theme.icon"
     size="sm"
+    :ui="{
+      rounded: 'rounded-full',
+      padding: 'px-3 py-1.5',
+      font: { size: 'text-sm' },
+      icon: { size: 'text-lg' },
+    }"
   >
     <Handle type="target" :position="Position.Left" />
     <Handle type="source" :position="Position.Right" />
@@ -73,5 +79,14 @@
     width: unset;
     background: transparent;
     font-size: 12px;
+  }
+  
+  /* Customize node appearance */
+  .process-node {
+    transition: all 0.3s ease;
+  }
+  
+  .process-node:hover {
+    transform: translateY(-2px);
   }
 </style>

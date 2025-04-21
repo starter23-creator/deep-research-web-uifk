@@ -268,14 +268,15 @@
 </script>
 
 <template>
-  <UCard>
+  <UCard class="neumorphic-raised neumorphic-card">
     <template #header>
       <div class="flex items-center justify-between gap-2">
-        <h2 class="font-bold">{{ $t('researchReport.title') }}</h2>
+        <h2 class="font-bold text-lg">{{ $t('researchReport.title') }}</h2>
         <UButton
           icon="i-lucide-refresh-cw"
-          :loading
+          :loading="loading"
           variant="ghost"
+          class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
           @click="generateReport"
         >
           {{ $t('researchReport.regenerate') }}
@@ -289,9 +290,10 @@
       :description="error"
       color="error"
       variant="soft"
+      class="rounded-neumorphic mb-4"
     />
 
-    <div class="flex mb-4 justify-end">
+    <div class="flex mb-4 justify-end gap-2">
       <UButton
         color="info"
         variant="ghost"
@@ -299,6 +301,7 @@
         size="sm"
         :disabled="isExportButtonDisabled"
         :loading="loadingExportMarkdown"
+        class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
         @click="exportToMarkdown"
       >
         {{ $t('researchReport.exportMarkdown') }}
@@ -310,6 +313,7 @@
         size="sm"
         :disabled="isExportButtonDisabled"
         :loading="loadingExportPdf"
+        class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
         @click="exportToPdf"
       >
         {{ $t('researchReport.exportPdf') }}
@@ -326,10 +330,10 @@
     <div
       ref="reportContainerRef"
       v-if="reportContent"
-      class="prose prose-sm max-w-none break-words p-6 bg-gray-50 dark:bg-gray-800 dark:prose-invert dark:text-white rounded-lg shadow"
+      class="prose prose-sm max-w-none break-words p-6 rounded-neumorphic shadow-neumorphic-raised bg-neumorphic-card dark:prose-invert dark:text-white"
       v-html="reportHtml"
     />
-    <div v-else>
+    <div v-else class="py-6 text-center text-neumorphic-text">
       {{
         loading ? $t('researchReport.generating') : $t('researchReport.waiting')
       }}

@@ -344,12 +344,23 @@
 </script>
 
 <template>
-  <UModal v-if="isFullscreen" open fullscreen :ui="{ body: '!pr-0' }">
+  <UModal 
+    v-if="isFullscreen" 
+    open 
+    fullscreen 
+    :ui="{ 
+      body: '!pr-0',
+      container: 'rounded-neumorphic', 
+      overlay: { background: 'bg-gray-900/60 backdrop-blur-sm' },
+      card: { base: 'bg-neumorphic-card rounded-none' }
+    }" 
+    class="neumorphic-raised"
+  >
     <template #header>
       <div class="w-full flex items-center justify-between">
         <div>
-          <h2 class="font-bold">{{ t('webBrowsing.title') }}</h2>
-          <p class="text-sm text-gray-500">
+          <h2 class="font-bold text-lg">{{ t('webBrowsing.title') }}</h2>
+          <p class="text-sm text-gray-500 mt-1">
             {{ t('webBrowsing.clickToView') }}
           </p>
         </div>
@@ -358,6 +369,7 @@
             icon="i-material-symbols:fullscreen-exit"
             variant="ghost"
             color="info"
+            class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
             @click="toggleFullscreen"
           />
         </UTooltip>
@@ -389,12 +401,12 @@
     </template>
   </UModal>
 
-  <UCard v-if="!isFullscreen">
+  <UCard v-if="!isFullscreen" class="neumorphic-raised neumorphic-card">
     <template #header>
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="font-bold">{{ t('webBrowsing.title') }}</h2>
-          <p class="text-sm text-gray-500">
+          <h2 class="font-bold text-lg">{{ t('webBrowsing.title') }}</h2>
+          <p class="text-sm text-gray-500 mt-1">
             {{ t('webBrowsing.description') }}
             <br />
             {{ t('webBrowsing.clickToView') }}
@@ -405,6 +417,7 @@
             icon="i-material-symbols:fullscreen"
             variant="ghost"
             color="info"
+            class="neumorphic-raised neumorphic-pill active:neumorphic-pressed"
             @click="toggleFullscreen"
           />
         </UTooltip>

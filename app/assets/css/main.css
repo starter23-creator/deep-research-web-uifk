@@ -1,11 +1,449 @@
 /* Don't do `@import "tailwindcss"`, do this instead: */
 @layer theme, base, components, utilities;
 
-@import 'tailwindcss/theme' layer(theme) theme(static);
+@import 'tailwindcss/theme' layer(theme);
 @import 'tailwindcss/preflight' layer(base);
 @import 'tailwindcss/utilities' layer(utilities);
 
-@plugin '@tailwindcss/typography';
-
 /* Then import "@nuxt/ui": */
 @import '@nuxt/ui';
+
+/* --- Neumorphism Base Styles --- */
+@layer base {
+  :root {
+    /* Light Theme Colors - Wellness/Fitness inspired */
+    --neumorphic-bg-light: #e6effa; /* Soft pastel blue background */
+    --neumorphic-shadow-light: #ffffff; /* White highlight */
+    --neumorphic-shadow-dark: #c7d6e6; /* Soft pastel shadow */
+    --neumorphic-text-color: #3d4a5c; /* Medium-dark blue-grey text */
+    --neumorphic-border-radius: 20px; /* Generous border radius */
+    --neumorphic-distance: 10px; /* Increased shadow distance */
+    --neumorphic-blur: 30px; /* Increased shadow blur */
+    --neumorphic-primary: linear-gradient(145deg, #65c5f1, #8b7af6); /* Pastel blue-violet gradient for primary */
+    --neumorphic-secondary: linear-gradient(145deg, #f88e86, #ffa897); /* Soft coral gradient for secondary */
+    --neumorphic-accent: linear-gradient(145deg, #64dbc3, #55d1ad); /* Teal gradient for accents */
+    --neumorphic-primary-pressed: linear-gradient(145deg, #8b7af6, #65c5f1); /* Inverted gradient for pressed */
+    
+    /* Sizing, padding and spacing */
+    --neumorphic-padding-input: 14px 20px; /* High padding for inputs */
+    --neumorphic-btn-radius: 50px; /* Pill-shaped buttons */
+    --neumorphic-card-padding: 24px; /* Generous card padding */
+    
+    /* Override Nuxt UI variables for light mode */
+    --ui-bg: #1a1a1a !important; /* Fix for text color in light mode */
+  }
+
+  /* Dark mode variables */
+  .dark {
+    --neumorphic-bg-light: #1e2433; /* Dark background */
+    --neumorphic-shadow-light: #2a3347; /* Slightly lighter shadow */
+    --neumorphic-shadow-dark: #141825; /* Darker shadow */
+    --neumorphic-text-color: #e6edf8; /* Light text with better contrast */
+    --neumorphic-primary: linear-gradient(145deg, #5fb2de, #7d6ce3); /* Better contrast gradient */
+    --neumorphic-secondary: linear-gradient(145deg, #ea7d74, #ff9a87);
+    --neumorphic-accent: linear-gradient(145deg, #57cdb5, #48c49f);
+    --neumorphic-primary-pressed: linear-gradient(145deg, #7d6ce3, #5fb2de);
+    
+    /* Override Nuxt UI variables for dark mode */
+    --ui-bg: white !important; /* Fix for text color in dark mode */
+  }
+
+  html, body {
+    background-color: var(--neumorphic-bg-light) !important;
+    color: var(--neumorphic-text-color) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Poppins', 'Inter', 'SF Pro', 'DM Sans', sans-serif !important;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* --- Neumorphism Component Styles --- */
+@layer components {
+  /* Card styling */
+  .neumorphic-raised {
+    background: var(--neumorphic-bg-light) !important;
+    border-radius: var(--neumorphic-border-radius) !important;
+    border: none !important; /* Remove border from all raised elements */
+    box-shadow:
+      10px 10px 30px var(--neumorphic-shadow-dark),
+      -10px -10px 30px var(--neumorphic-shadow-light) !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .neumorphic-raised:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow:
+      12px 12px 36px var(--neumorphic-shadow-dark),
+      -12px -12px 36px var(--neumorphic-shadow-light) !important;
+  }
+  
+  /* Dark mode raised component styles */
+  html.dark .neumorphic-raised {
+    border: none !important; /* Remove border in dark mode too */
+    box-shadow:
+      10px 10px 30px rgba(0, 0, 0, 0.3),
+      -10px -10px 30px rgba(255, 255, 255, 0.03) !important;
+  }
+  
+  html.dark .neumorphic-raised:hover:not(:disabled) {
+    box-shadow:
+      12px 12px 36px rgba(0, 0, 0, 0.35),
+      -12px -12px 36px rgba(255, 255, 255, 0.04) !important;
+  }
+
+  .neumorphic-inset {
+    background: var(--neumorphic-bg-light) !important;
+    border-radius: var(--neumorphic-border-radius) !important;
+    border: none !important;
+    box-shadow:
+      inset 8px 8px 16px var(--neumorphic-shadow-dark),
+      inset -8px -8px 16px var(--neumorphic-shadow-light) !important;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  /* Dark mode inset styles */
+  html.dark .neumorphic-inset {
+    box-shadow:
+      inset 6px 6px 12px rgba(12, 15, 25, 0.7),
+      inset -6px -6px 12px rgba(42, 51, 71, 0.2) !important;
+    border: none !important; /* Ensure no border in dark mode */
+  }
+
+  .neumorphic-pressed {
+    background: var(--neumorphic-bg-light) !important;
+    border-radius: var(--neumorphic-border-radius) !important;
+    border: none !important;
+    box-shadow:
+      inset 8px 8px 16px var(--neumorphic-shadow-dark),
+      inset -8px -8px 16px var(--neumorphic-shadow-light) !important;
+    transform: translateY(1px);
+  }
+  
+  /* Additional component styles */
+  .neumorphic-card {
+    padding: var(--neumorphic-card-padding) !important;
+    background: #f0f4f8;
+    border-radius: var(--neumorphic-border-radius) !important;
+    border: none !important; /* Remove border */
+    box-shadow:
+      10px 10px 30px var(--neumorphic-shadow-dark),
+      -10px -10px 30px var(--neumorphic-shadow-light) !important;
+  }
+  
+  /* Pill-shaped buttons */
+  .neumorphic-pill {
+    border-radius: var(--neumorphic-btn-radius) !important;
+    background: linear-gradient(to bottom, #f0f4f8, #dfe5eb) !important;
+    box-shadow:
+      6px 6px 12px var(--neumorphic-shadow-dark),
+      -6px -6px 12px var(--neumorphic-shadow-light) !important;
+    transition: all 0.3s ease;
+    border: none !important; /* Ensure no border */
+  }
+  
+  .neumorphic-pill:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #f5f9fd, #e4eaf0) !important;
+    box-shadow:
+      8px 8px 16px var(--neumorphic-shadow-dark),
+      -8px -8px 16px var(--neumorphic-shadow-light) !important;
+  }
+  
+  .neumorphic-pill:active:not(:disabled),
+  .neumorphic-pill.active {
+    background: linear-gradient(to top, #f0f4f8, #dfe5eb) !important;
+    box-shadow:
+      inset 6px 6px 12px var(--neumorphic-shadow-dark),
+      inset -6px -6px 12px var(--neumorphic-shadow-light) !important;
+  }
+  
+  /* Dark mode pill buttons */
+  html.dark .neumorphic-pill {
+    background: linear-gradient(to bottom, #262f44, #1e2636) !important;
+    color: #e6edf8 !important;
+    box-shadow:
+      6px 6px 12px rgba(0, 0, 0, 0.25),
+      -6px -6px 12px rgba(255, 255, 255, 0.05) !important;
+  }
+  
+  html.dark .neumorphic-pill:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #2a344b, #222b3d) !important;
+  }
+  
+  html.dark .neumorphic-pill:active:not(:disabled),
+  html.dark .neumorphic-pill.active {
+    background: linear-gradient(to top, #1e2636, #262f44) !important;
+    box-shadow:
+      inset 6px 6px 12px rgba(0, 0, 0, 0.35),
+      inset -6px -6px 12px rgba(255, 255, 255, 0.03) !important;
+  }
+}
+
+/* --- Nuxt UI Component Overrides --- */
+@layer utilities {
+  /* Direct override for Tailwind classes using --ui-bg variable */
+  /* Text colors */
+  html:not(.dark) .text-\[\-\-ui\-bg\] {
+    color: #1a1a1a !important;
+  }
+  
+  html.dark .text-\[\-\-ui\-bg\] {
+    color: white !important;
+  }
+  
+  /* Background colors */
+  html:not(.dark) .bg-\[\-\-ui\-bg\] {
+    background-color: white !important;
+  }
+  
+  html.dark .bg-\[\-\-ui\-bg\] {
+    background-color: #232a3c !important; /* Match dark card background */
+  }
+  /* All buttons and icons in light mode should have black text/icon color */
+  html:not(.dark) body .u-button {
+    color: #1a1a1a !important;
+  }
+
+  /* Make sure primary buttons also have dark text in light mode */
+  html:not(.dark) body .u-button.neumorphic-raised[color="primary"],
+  html:not(.dark) body .u-button.neumorphic-raised[block],
+  html:not(.dark) body .u-button[color="primary"],
+  html:not(.dark) body .u-button[block] {
+    color: #1a1a1a !important;
+  }
+  
+  /* Additional overrides for Nuxt UI variables */
+  html:not(.dark) body .u-button.text-\[\-\-ui\-bg\],
+  html:not(.dark) body .u-button .text-\[\-\-ui\-bg\] {
+    color: #1a1a1a !important;
+  }
+
+  /* Ensure icons have correct color in light mode */
+  html:not(.dark) body .u-button [class^="i-"], 
+  html:not(.dark) body .u-button [class*=" i-"] {
+    color: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+  }
+  
+  /* Keep white text in dark mode for buttons */
+  html.dark body .u-button {
+    color: white !important;
+  }
+
+  html.dark body .u-button [class^="i-"], 
+  html.dark body .u-button [class*=" i-"] {
+    color: white !important;
+    background-color: white !important;
+  }
+
+  /* Common styles for primary/block buttons */
+  html body .u-button.neumorphic-raised[color="primary"],
+  html body .u-button.neumorphic-raised[block] {
+    background: var(--neumorphic-primary) !important;
+    padding: 0.875rem 1.75rem !important;
+    border-radius: var(--neumorphic-btn-radius) !important;
+    font-weight: 600 !important; /* Increased font weight for better contrast */
+    letter-spacing: 0.02em !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important; /* Text shadow for better readability */
+    border: none !important;
+  }
+  
+  /* Primary button hover effect - subtle glow */
+  html body .u-button.neumorphic-raised[color="primary"]:hover:not(:disabled),
+  html body .u-button.neumorphic-raised[block]:hover:not(:disabled) {
+    box-shadow: 
+      0 0 15px rgba(139, 122, 246, 0.5),
+      0 0 30px rgba(101, 197, 241, 0.3) !important;
+    transform: translateY(-2px);
+  }
+  
+  /* Secondary buttons with coral gradient */
+  html body .u-button.neumorphic-raised[color="secondary"] {
+    background: var(--neumorphic-secondary) !important;
+    border-radius: var(--neumorphic-btn-radius) !important;
+    border: none !important;
+  }
+  
+  /* Icon-only buttons */
+  html body .u-button.neumorphic-raised:not([color="primary"]):not([color="secondary"]):not([block]) {
+    background: linear-gradient(to bottom, #f0f4f8, #dfe5eb) !important;
+    padding: 0.875rem !important;
+    border-radius: var(--neumorphic-btn-radius) !important;
+    min-width: 46px !important;
+    height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+  }
+  
+  /* Dark mode icon button overrides */
+  html.dark body .u-button.neumorphic-raised:not([color="primary"]):not([color="secondary"]):not([block]) {
+    background: linear-gradient(to bottom, #262f44, #1e2636) !important;
+  }
+
+  /* Button active and pressed states */
+  .u-button.neumorphic-raised:active:not(:disabled),
+  .u-button.neumorphic-pressed:not(:disabled) {
+    background: var(--neumorphic-primary-pressed) !important;
+    box-shadow: 
+      inset 8px 8px 16px rgba(0, 0, 0, 0.15),
+      inset -8px -8px 16px rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(1px);
+  }
+  
+  /* Disabled button styles with proper text color */
+  html:not(.dark) body .u-button.neumorphic-raised:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    color: rgba(26, 26, 26, 0.7) !important; /* Muted dark text for light mode */
+  }
+  
+  html.dark body .u-button.neumorphic-raised:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    color: rgba(255, 255, 255, 0.7) !important; /* Muted white text for dark mode */
+  }
+
+  /* Input/Textarea overrides - remove borders */
+  .u-input,
+  .u-textarea,
+  .u-input.neumorphic-inset,
+  .u-textarea.neumorphic-inset,
+  .neumorphic-inset input,
+  .neumorphic-inset textarea {
+    border: none !important; /* Ensure no border on all form elements */
+    padding: var(--neumorphic-padding-input) !important;
+    color: var(--neumorphic-text-color) !important;
+    font-size: 1rem !important;
+  }
+  
+  /* Force override of default Nuxt UI styles */
+  .u-card.neumorphic-raised {
+    padding: var(--neumorphic-card-padding) !important;
+    background-color: #f0f4f8 !important; /* Slightly lighter than base background */
+    border: none !important; /* Remove border */
+  }
+  
+  /* Dark mode card styling */
+  html.dark .u-card.neumorphic-raised,
+  html.dark .neumorphic-card {
+    background-color: #232a3c !important;
+    border: none !important; /* Remove border in dark mode too */
+    color: var(--neumorphic-text-color) !important; /* Ensure text color is updated too */
+  }
+  
+  /* Specific styling for form fields in dark mode */
+  html.dark .neumorphic-inset input,
+  html.dark .neumorphic-inset textarea,
+  html.dark .u-input.neumorphic-inset,
+  html.dark .u-textarea.neumorphic-inset {
+    background-color: #212839 !important;
+    color: var(--neumorphic-text-color) !important; 
+  }
+  
+  /* Apply these styles to all direct children of components with neumorphic-inset */
+  .neumorphic-inset > input,
+  .neumorphic-inset > textarea {
+    background: transparent !important;
+    border: none !important;
+    color: var(--neumorphic-text-color) !important;
+    padding: var(--neumorphic-padding-input) !important;
+  }
+  
+  /* Dark mode overrides for form elements */
+  html.dark .u-input.neumorphic-inset,
+  html.dark .u-textarea.neumorphic-inset {
+    background-color: #212839 !important; /* Slightly different from main bg for better contrast */
+  }
+
+  /* Form field labels */
+  .u-form-group label {
+    color: var(--neumorphic-text-color) !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.75rem !important;
+    letter-spacing: 0.01em !important;
+  }
+  
+  /* Help text styling */
+  .u-form-group [data-slot="help"] {
+    font-size: 0.875rem !important;
+    color: #647287 !important; /* Slightly lighter than text for help content */
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Dark mode help text with better contrast */
+  html.dark .u-form-group [data-slot="help"] {
+    color: #a6b7d4 !important;
+  }
+  
+  /* Toggle switches */
+  .u-toggle {
+    border-radius: 999px !important; /* Fully rounded toggle */
+  }
+  
+  .u-toggle__circle {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow for toggle button */
+  }
+  
+/* Modal specific overrides */
+  .u-modal .u-card {
+    border-radius: var(--neumorphic-border-radius) !important;
+    border: none !important;
+    box-shadow:
+      12px 12px 36px var(--neumorphic-shadow-dark),
+      -12px -12px 36px var(--neumorphic-shadow-light) !important;
+  }
+  
+  html.dark .u-modal .u-card {
+    border: none !important;
+    box-shadow:
+      10px 10px 30px rgba(0, 0, 0, 0.3),
+      -10px -10px 30px rgba(255, 255, 255, 0.03) !important;
+  }
+  
+  /* Headers and titles */
+  .u-card h2, 
+  .u-modal h2 {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Additional selectors to ensure all UInput components have proper styling */
+  .u-select,
+  .u-input-menu,
+  .u-select.neumorphic-raised,
+  .u-select.neumorphic-inset,
+  .u-input-menu.neumorphic-raised,
+  .u-input-menu.neumorphic-inset {
+    border: none !important;
+  }
+
+  /* Ensure proper text color for select elements */
+  html:not(.dark) body .u-select,
+  html:not(.dark) body .u-input-menu {
+    color: #1a1a1a !important;
+  }
+  
+  html.dark body .u-select,
+  html.dark body .u-input-menu {
+    color: white !important;
+  }
+  
+  /* Ensure select elements' icons have proper color */
+  html:not(.dark) body .u-select [class^="i-"],
+  html:not(.dark) body .u-select [class*=" i-"],
+  html:not(.dark) body .u-input-menu [class^="i-"],
+  html:not(.dark) body .u-input-menu [class*=" i-"] {
+    color: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+  }
+  
+  html.dark body .u-select [class^="i-"],
+  html.dark body .u-select [class*=" i-"],
+  html.dark body .u-input-menu [class^="i-"],
+  html.dark body .u-input-menu [class*=" i-"] {
+    color: white !important;
+    background-color: white !important;
+  }
+}
